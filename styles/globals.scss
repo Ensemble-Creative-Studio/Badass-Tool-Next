@@ -1,0 +1,404 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  font-size: 62.5%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+@font-face {
+  font-family: "Founders-regular";
+  src: local("TheFutur"),
+    url("../public/fonts/founders-grotesk-regular.woff2") format("woff2");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Founders-semiBold";
+  src: local("TheFutur"),
+    url("../public/fonts/founders-grotesk-semibold.woff2") format("woff2");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Founders-condensed-semiBold";
+  src: local("TheFutur"),
+    url("../public/fonts/founders-grotesk-x-condensed-semibold.woff2")
+      format("woff2");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Founders-condensed-regular";
+  src: local("TheFutur"),
+    url("../public/fonts/founders-grotesk-x-condensed-regular.woff2")
+      format("woff2");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Tungsten";
+  src: local("TheFutur"),
+    url("../public/fonts/TungstenComp-Black.otf") format("opentype");
+  font-weight: 400;
+}
+.tungsten {
+  font-family: "Tungsten";
+}
+.founder-regular {
+  font-family: "Founders-regular";
+}
+.founder-semiBold {
+  font-family: "Founders-semiBold";
+}
+.founder-condensed-regular {
+  font-family: "Founders-condensed-regular";
+  font-size: 6rem;
+}
+.founder-condensed-semiBold {
+  font-family: "Founders-condensed-semiBold";
+  font-size: 6rem;
+}
+
+.round-circle {
+  top: 1px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  position: relative;
+  background-color: #f93d3d;
+}
+
+.round-circle-no-fill {
+  width: 10px;
+  height: 10px;
+  background-color: white;
+  border-radius: 50%;
+  vertical-align: middle;
+  border: 1px solid #f93d3d;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  cursor: pointer;
+}
+.round-circle-no-fill:checked {
+  background-color: #f93d3d;
+}
+
+.customFullHeight {
+  height: calc(100vh - 8rem);
+}
+
+.films {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  li:nth-child(1),
+  li:nth-child(odd),
+  button:nth-child(1) {
+    grid-column-start: 5;
+    grid-column-end: span 4;
+  }
+  li,
+  button {
+    grid-column-end: span 4;
+  }
+}
+
+.overlay-video {
+  header button {
+    color: #f93d3d;
+  }
+  header .select {
+    color: white !important;
+    cursor: pointer;
+  }
+  .shareLink {
+    opacity: 1;
+  }
+}
+@layer utilities {
+}
+
+.ContactOverlay {
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  color: var(--white);
+  height: 100%;
+  opacity: 0;
+  overflow: auto;
+  position: fixed;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  visibility: hidden;
+  width: 100%;
+  z-index: 20;
+  top: 0;
+  left: 0;
+}
+.ContactOverlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.ContactOverlay__container {
+  align-items: center;
+  -moz-column-gap: 0;
+  column-gap: 0;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  height: 100%;
+  row-gap: 0;
+}
+.ContactOverlay__names {
+  grid-column: 8 / span 3;
+  line-height: 2.2rem;
+  h2 {
+    font-family: "Founders-semiBold";
+    color: #f93d3d;
+    font-size: 2rem;
+    text-transform: uppercase;
+  }
+  h3 {
+    font-family: "Founders-semiBold";
+    color: white;
+    font-size: 2rem;
+  }
+  a,
+  p {
+    font-family: "Founders-regular";
+    color: white;
+    font-size: 2rem;
+  }
+}
+.ContactOverlay__names .list .item:not(:first-child) {
+  margin-top: 40px;
+}
+.ContactOverlay__socials {
+  color: #f93d3d;
+  font-size: 2rem;
+  line-height: 2.5rem;
+  grid-column: auto/span 2;
+  font-family: "Founders-semiBold";
+}
+.ContactOverlay__credits {
+  bottom: 6rem;
+  -moz-column-gap: 0;
+  column-gap: 0;
+  cursor: pointer;
+  display: grid;
+  font-family: var(--fm-FoundersGrotesk-Regular);
+  font-size: var(--fs-credits-fontSize);
+  grid-template-columns: repeat(12, 1fr);
+  letter-spacing: var(--fs-credits-letterSpacing);
+  line-height: var(--fs-credits-lineHeight);
+  padding-bottom: 18px;
+  position: absolute;
+  row-gap: 0;
+  transition: 0.2s ease-in-out;
+  transition-property: all;
+  transition-property: color;
+  width: 100%;
+}
+.ContactOverlay__credits-inner {
+  grid-column: 8 / span 3;
+  font-family: "Founders-regular";
+  color: white;
+  font-size: 2rem;
+}
+
+header::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+header {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.badass a {
+  -webkit-text-fill-color: #f93d3d;
+  -moz-text-fill-color: #f93d3d;
+  animation: gradient 15s linear infinite;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-image: linear-gradient(
+    180deg,
+    #f93d3d,
+    #f93d3d,
+    #f93d3d,
+    #f93d3d,
+    #d8b163,
+    #04e704,
+    #06f9a8,
+    #13abf6,
+    #0808f7,
+    #c04ef9,
+    #f30aa5,
+    #f93d3d,
+    #f93d3d,
+    #f93d3d,
+    #f93d3d
+  );
+  background-size: 1000% 1000%;
+  display: block;
+
+  font-size: 200px;
+  // letter-spacing: var(--fs-brand-letterSpacing);
+  // line-height: var(--fs-brand-lineHeight);
+  text-transform: uppercase;
+
+  will-change: font-size;
+}
+
+.player-container {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  left: 0;
+  top: 0;
+  position: fixed;
+
+  width: 100%;
+  z-index: 1000;
+}
+.video-player {
+  z-index: 399999;
+  position: relative;
+  width: 70%;
+}
+.video-blur-overlay {
+  -webkit-backdrop-filter: blur(100px);
+  backdrop-filter: blur(100px);
+  cursor: pointer;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+.controls__timeline {
+  position: relative;
+  width: 100%;
+  height: 3px;
+  margin: 5px 0;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 1.5px;
+}
+
+.controls__timeline-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 1.5px;
+}
+
+.controls__timeline-current {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: #ffffff;
+  border-radius: 1.5px;
+  transition: transform 0.1s linear;
+}
+.controls {
+  bottom: 0;
+  color: #fff;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 14px;
+  justify-content: center;
+  mix-blend-mode: difference;
+  padding: 0 14px 14px;
+  position: absolute;
+  width: 100%;
+  column-gap: 1.4rem;
+  div,button{
+    text-transform: uppercase;
+
+  }
+}
+.timebar {
+  align-items: center;
+  bottom: -10px;
+  cursor: pointer;
+  display: flex;
+  height: 20px;
+  left: 0;
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+}
+
+.timebar-current {
+  position: absolute;
+  top: initial;
+  left: 0;
+  height: 3px;
+  background-color: white;
+}
+
+.timebar-background{
+  background-color: #737373;
+height: 2px;
+opacity: .8;
+width: 100%;
+}
+@keyframes gradient {
+  0% {
+    background-position: 0 -10px;
+  }
+  to {
+    background-position: 0 calc(100% + 10px);
+  }
+}
+
+@media (max-width: 700px) {
+  /* Styles to apply when the screen is smaller than 700px */
+  .films {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+
+    button:nth-child(1) {
+      grid-column-start: 1;
+      grid-column-end: span 3;
+    }
+    li,
+    button {
+      grid-column-end: span 3;
+    }
+  }
+  .customFullHeight {
+    height: calc(100vh);
+    z-index: 40;
+    position: relative;
+  }
+  .ContactOverlay__container {
+    align-items: center;
+    height: auto;
+    justify-content: center;
+    padding: 80px 0;
+    text-align: center;
+  }
+  .ContactOverlay__names {
+    grid-column: 2 / span 10;
+  }
+  .ContactOverlay__socials {
+    grid-column: 2 / span 10;
+    margin-top: 160px;
+  }
+  .ContactOverlay__credits {
+    grid-column: 1/-1;
+    margin-top: 160px;
+    position: relative;
+  }
+  .ContactOverlay__credits-inner {
+    grid-column: 1/-1;
+  }
+  .copied{
+    font-size: 9px;
+    line-height: 10px;
+    margin-top: 0.5rem;
+    padding: 1rem;
+    white-space: nowrap;
+    
+  }
+}

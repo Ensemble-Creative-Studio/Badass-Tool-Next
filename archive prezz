@@ -1,0 +1,42 @@
+import { GetServerSideProps } from "next";
+import groq from "groq";
+import { client } from "../../lib/sanity.client";
+import urlFor from "../../lib/urlFor";
+
+export default function WatchLater({ films }) {
+  return (
+    <div>
+      <h1>Watch Later</h1>
+      <ul>
+        {films.map((film) => (
+          <li key={film._id}>
+            <h2>{film.title}</h2>
+            <video poster={urlFor(film.thumbnailImage).url()} src={film.videoUrl} controls></video>
+            <img src={film.posterUrl} alt={film.title} />
+            <p>Release Date: {film.releaseDate}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { slug } = context.query;
+  const [directorSlug, filmSlugs] = slug.toString().split(',');
+  const slugs = filmSlugs.split('_');
+  console.log('---------------')
+  console.log(slugs)
+  const query = groq`*[_type == 'films' && slug.current in $slugs] {
+    _id,
+    title,
+    slug,
+    releaseDate,
+    videoUrl,
+    thumbnailImage,
+    "posterUrl": poster.asset->url
+  }`;
+  const films = await client.fetch(query, { slugs });
+  console.log(films)
+  return { props: { films } };
+};
