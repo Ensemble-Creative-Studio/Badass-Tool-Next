@@ -5,7 +5,7 @@ import { useRef, useState, useEffect } from "react";
 import urlFor from "../../lib/urlFor";
 import { useRouter } from "next/router";
 import Header from "../../components/header";
-import Footer from "../../components/footer";
+import Footer from "../../components/Footer";
 import Link from "next/link";
 import Image from "next/image";
 import VideoPlayer from "../../components/utils/VideoPlayer";
