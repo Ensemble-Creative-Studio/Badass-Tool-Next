@@ -5,13 +5,7 @@ import Link from 'next/link';
 import { useEffect } from "react";
 import Head from "next/head";
 import Header from "../components/header";
-interface PageProps {
-  metatitle: ReactNode;
-  metadescription: string | undefined;
-  title: string;
-  videoBackground: string;
-  description: string;
-}
+
 
 // Modify the getServerSideProps function to include a 'directors' property in the returned 'props' object
 export async function getServerSideProps() {
@@ -29,7 +23,7 @@ export async function getServerSideProps() {
 }
 
 // In the HomePage component, display the name of each director or a message if no directors are found
-export default function HomePage({ page, directors }: { page: PageProps, directors: any[] }) {
+export default function HomePage({ page, directors }) {
 
   return (
     <div className="">

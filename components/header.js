@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import DirectorLink from "./utils/DirectorLink";
 import SelectVideo from "./utils/SelectVideo";
-import Preview from './utils/Preview';
+import Preview from "./utils/Preview";
 import useHeaderEffect from "./utils/useHeaderEffect";
 
 export default function Header({
@@ -23,14 +23,7 @@ export default function Header({
   const [isVideoSelected, setIsVideoSelected] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
 
-  useEffect(() => {
-    useHeaderEffect(
-      router,
-      directorRef,
-      selectVideoRef,
-      directorName,
-    );
-  }, [router.query.director, router.asPath, directorRef, selectVideoRef, directorName]);
+  useHeaderEffect(router, directorRef, selectVideoRef, directorName);
 
   const handleVideoSelect = () => {
     setIsVideoSelected(true);
