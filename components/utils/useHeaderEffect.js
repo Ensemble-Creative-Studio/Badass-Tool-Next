@@ -3,14 +3,19 @@ export default function applyHeaderEffects(router, directorRef, selectVideoRef, 
 
   if (pageSlug === "director") {
     if (router.asPath.includes("/director")) {
-      selectVideoRef.current.style.color = "#F93D3D";
-      directorRef.current.style.color = "white";
-      directorRef.current.style.opacity = 1;
-      selectVideoRef.current.style.opacity = 1;
-
-      // update the director link text content with the director name
-      if (directorRef.current && directorName) {
-        directorRef.current.lastChild.textContent = directorName;
+      if (selectVideoRef.current) {
+        selectVideoRef.current.style.color = "#F93D3D";
+        selectVideoRef.current.style.opacity = 1;
+      }
+      
+      if (directorRef.current) {
+        directorRef.current.style.color = "white";
+        directorRef.current.style.opacity = 1;
+        
+        // update the director link text content with the director name
+        if (directorName) {
+          directorRef.current.lastChild.textContent = directorName;
+        }
       }
 
       if (window.innerWidth < 700) {
@@ -36,29 +41,33 @@ export default function applyHeaderEffects(router, directorRef, selectVideoRef, 
           setTimeout(() => {
             const overlayHeader =  document.querySelector('.overlay-video header');
             const scrollToXnew = headerElement.scrollWidth - headerRect.width;
-            console.log(scrollToXnew)
     
-              overlayHeader.scrollTo({
-                left: scrollToXnew,
-                top: 0,
-                behavior: 'smooth'
-              });
-        
-      
+            overlayHeader.scrollTo({
+              left: scrollToXnew,
+              top: 0,
+              behavior: 'smooth'
+            });
           });
-          }, 300);
+        }, 300);
        
       } else {
         // reset styles if the screen width is wider than 700px
-        selectVideoRef.current.style.position = '';
-        selectVideoRef.current.style.top = '';
-        selectVideoRef.current.style.left = '';
+        if (selectVideoRef.current) {
+          selectVideoRef.current.style.position = '';
+          selectVideoRef.current.style.top = '';
+          selectVideoRef.current.style.left = '';
+        }
       }
     }
   } else {
-    selectVideoRef.current.style.color = "white";
-    directorRef.current.style.color = "#F93D3D";
-    directorRef.current.style.opacity = 1;
-    selectVideoRef.current.style.opacity = 0.5;
+    if (selectVideoRef.current) {
+      selectVideoRef.current.style.color = "white";
+      selectVideoRef.current.style.opacity = 0.5;
+    }
+    
+    if (directorRef.current) {
+      directorRef.current.style.color = "#F93D3D";
+      directorRef.current.style.opacity = 1;
+    }
   }
 };
