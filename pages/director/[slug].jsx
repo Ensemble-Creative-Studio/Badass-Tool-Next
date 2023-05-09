@@ -230,7 +230,22 @@ else{
       });
     };
   }, []);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const updateIsMobile = () => {
+      setIsMobile(window.innerWidth <= 900);
+    };
+    updateIsMobile();
+    window.addEventListener('resize', updateIsMobile);
+    return () => {
+      window.removeEventListener('resize', updateIsMobile);
+    };
+  }, []);
   
+  useEffect(() => {
+    console.log(window.innerWidth);
+  }, [isMobile]);
 
   return (
     <div
@@ -253,6 +268,13 @@ else{
       <h2 className=" directorName text-center w-full md:w-auto md:text-big text-big-mobile absolute bottom-14 md:relative md:bottom-0 md:ml-16 ml-0 text-white founder-semiBold uppercase">{director.name}</h2>
     </div>  
       <div className="customFullHeight">
+         {isMobile ? (
+        <video
+          className="h-full w-full object-cover"
+          poster={urlFor(director.thumbnailImage).url()}
+          
+        ></video>
+      ) : (
         <video
           className="h-full w-full object-cover"
           poster={urlFor(director.thumbnailImage).url()}
@@ -260,6 +282,7 @@ else{
           autoPlay
           loop
         ></video>
+      )}
       </div>
       <div className="overlay-content pt-40 pb-96 ">
         <ul className="sm:grid films flex flex-col  sm:px-24 px-12 sm:gap-24 gap-48 text-white ">
@@ -270,12 +293,21 @@ else{
               draggable={true}
               style={{ cursor: "move" }}
             >
-              <video
-                poster={urlFor(item.thumbnailImage).url()}
-                src={item.videoLoopUrl}
-                loop
-                autoPlay
-              ></video>
+                    {isMobile ? (
+                <video
+                  poster={urlFor(item.thumbnailImage).url()}
+                  src={item.videoLoopUrl}
+                  muted
+                ></video>
+                ) : (
+                  <video
+                  loop
+                  src={item.videoLoopUrl}
+                  autoPlay
+                  poster={urlFor(item.thumbnailImage).url()}
+                  muted
+                ></video>
+                )}
               <div className="pt-5 flex justify-between uppercase items-center">
                 <div className="flex">
                   <h3 className="founder-semiBold  text-14px pr-2">{item.client}</h3>
@@ -337,6 +369,24 @@ export default function Director({ director, contact }) {
 
   const directorName = director.name;
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const updateIsMobile = () => {
+      setIsMobile(window.innerWidth <= 900);
+    };
+    updateIsMobile();
+    window.addEventListener('resize', updateIsMobile);
+    return () => {
+      window.removeEventListener('resize', updateIsMobile);
+    };
+  }, []);
+  
+  useEffect(() => {
+    console.log(window.innerWidth);
+  }, [isMobile]);
+
+
   return (
     <div className="">
       <Header
@@ -355,15 +405,25 @@ export default function Director({ director, contact }) {
             (film) =>
               film && (
                 <div className="cursor-pointer" key={film._id}>
+                         {isMobile ? (
+                <video
+                poster={urlFor(film.thumbnailImage).url()}
+               
+                onClick={() => {
+                  film.checkboxRef.click();
+                }}
+                ></video>
+                ) : (
                   <video
-                    poster={urlFor(film.thumbnailImage).url()}
-                    src={film.videoLoopUrl}
-                    autoPlay
-                    loop
-                    onClick={() => {
-                      film.checkboxRef.click();
-                    }}
-                  ></video>
+                  poster={urlFor(film.thumbnailImage).url()}
+                  src={film.videoLoopUrl}
+                  autoPlay
+                  loop
+                  onClick={() => {
+                    film.checkboxRef.click();
+                  }}
+                ></video>
+                )}
                   <div className="pt-5 flex justify-between">
                     <div className="flex">
                       <h3 className="founder-semiBold pr-2">{film.client}</h3>

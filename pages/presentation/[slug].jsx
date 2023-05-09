@@ -186,7 +186,6 @@ export default function WatchLater({ director, contact, films }) {
                   
                   
                   poster={urlFor(item.thumbnailImage).url()}
-                  src={item.videoLoopUrl}
                   muted
                 ></video>
                 ) : (
@@ -194,6 +193,7 @@ export default function WatchLater({ director, contact, films }) {
                   loop
                   autoPlay
                   poster={urlFor(item.thumbnailImage).url()}
+                  src={item.videoLoopUrl}
                   muted
                 ></video>
                 )}

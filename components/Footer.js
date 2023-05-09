@@ -9,9 +9,7 @@ export default function Footer({ contact, films }) {
     setIsContactActive(!isContactActive);
   };
   const handleDownloadAllClick = () => {
-    console.log('ckioo')
     films.forEach((film, index) => {
-      console.log(film.downloadVideoUrl)
       
       setTimeout(() => {
         const link = document.createElement("a");
