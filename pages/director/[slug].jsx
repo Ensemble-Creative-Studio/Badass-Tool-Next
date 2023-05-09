@@ -105,9 +105,7 @@ function Overlay({
       video.addEventListener("dragend", handleDragEnd, false);
       video.addEventListener("dragover", handleDragOver, false);
       video.addEventListener("drop", handleDrop, false);
-      video.addEventListener("touchstart", handleTouchStart, false);
-      video.addEventListener("touchend", handleTouchEnd, false);
-      video.addEventListener("touchmove", handleTouchMove, false);
+
     });
 
     return () => {
@@ -334,26 +332,34 @@ function Overlay({
                       const [removed] = newCheckedItems.splice(currentIndex, 1);
                       newCheckedItems.splice(currentIndex - 1, 0, removed);
                       setCheckedItems(newCheckedItems);
+                      const newWatchLaterUrl = generateWatchLaterUrl();
+                      setWatchLaterUrl(newWatchLaterUrl);
+                      return false;
                     }
                   }}
                 />
-         <Image
-  className="down-arrow"
-  src="/icons/arrows-red.svg"
-  alt="arrow"
-  height={20}
-  width={20}
-  onClick={() => {
-    const currentIndex = checkedItems.findIndex((item) => item.slug.current === checkedItems[index].slug.current);
-    if (currentIndex < checkedItems.length - 1) {
-      const newCheckedItems = [...checkedItems];
-      const [removed] = newCheckedItems.splice(currentIndex, 1);
-      newCheckedItems.splice(currentIndex + 1, 0, removed);
-      setCheckedItems(newCheckedItems);
-    }
-  }}
-/>
-
+                <Image
+                  className="down-arrow"
+                  src="/icons/arrows-red.svg"
+                  alt="arrow"
+                  height={20}
+                  width={20}
+                  onClick={() => {
+                    const currentIndex = checkedItems.findIndex(
+                      (item) =>
+                        item.slug.current === checkedItems[index].slug.current
+                    );
+                    if (currentIndex < checkedItems.length - 1) {
+                      const newCheckedItems = [...checkedItems];
+                      const [removed] = newCheckedItems.splice(currentIndex, 1);
+                      newCheckedItems.splice(currentIndex + 1, 0, removed);
+                      setCheckedItems(newCheckedItems);
+                      const newWatchLaterUrl = generateWatchLaterUrl();
+                      setWatchLaterUrl(newWatchLaterUrl);
+                      return false;
+                    }
+                  }}
+                />
               </div>
             </li>
           ))}
