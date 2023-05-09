@@ -130,47 +130,99 @@ function Overlay({
     const directorName = document.querySelector(".directorName");
     const fixedBar = document.querySelector(".fixed-bar");
     const footer = document.querySelector(".footer");
-    ScrollTrigger.create({
-      trigger: ".overlay-video",
-      start: "top center",
-      endTrigger: ".overlay-video",
-      end: "center   center",
+    if (window.innerWidth > 700) {
+
+      ScrollTrigger.create({
+        trigger: ".overlay-video",
+        start: "top center",
+        endTrigger: ".overlay-video",
+        end: "center   center",
+    
+        scroller: '.overlay-video',
+        onLeave: () => {
+          fixedBar.style.pointerEvents = "auto";
+          // $brandLink.value.classList.remove('isActive')
+          gsap.to(header, {
+            fontSize: 50,
+            ease: 'power4.out',
+          })
+          gsap.to(directorName, {
+            fontSize: 20,
+            marginLeft: 30,
+            ease: 'power4.out',
+          })
+          gsap.to(footer, {
+            y: 0,
+            ease: 'power4.out',
+          })
+        },
+        onEnterBack: () => {
+          fixedBar.style.pointerEvents = "none";
+          gsap.to(header, {
+            fontSize: 200,
+            ease: 'power4.out',
+          })
+          gsap.to(directorName, {
+            fontSize: 64,
+            marginLeft: 60,
+            ease: 'power4.out',
+          })
+          gsap.to(footer, {
+            y: 50,
+            ease: 'power4.out',
+          })
+        },
+      })
+    }
+
+else{
+  ScrollTrigger.create({
+
+    trigger: ".overlay-video",
+    start: "10% center",
+    endTrigger: ".overlay-video",
+    end: "20%   center",
+markers: true,
+    scroller: '.overlay-video',
+    onLeave: () => {
+      gsap.to(header, {
+        fontSize: 50,
+        ease: 'power4.out',
+      })
+      gsap.to(directorName, {
+        fontSize: 18,
+        ease: 'power4.out',
+        bottom: 'calc(100% - 60px )',
+      })
+      gsap.to(footer, {
+        y: 0,
+        ease: 'power4.out',
+      })
+    },
+    onEnterBack: () => {
+      gsap.to(header, {
+        fontSize: 200,
+        ease: 'power4.out',
+      })
+      gsap.to(directorName, {
+        fontSize: 32,
+        ease: 'power4.out',
+        bottom: '35px',
+        width:'100%',
+        
+      })
+      gsap.to(footer, {
+        y: 50,
+        ease: 'power4.out',
+      })
+    },
+  })
+
+}
+// IF SCREEN WIDTH IF SMALLER THAN 800PX
   
-      scroller: '.overlay-video',
-      onLeave: () => {
-        fixedBar.style.pointerEvents = "auto";
-        // $brandLink.value.classList.remove('isActive')
-        gsap.to(header, {
-          fontSize: 50,
-          ease: 'power4.out',
-        })
-        gsap.to(directorName, {
-          fontSize: 20,
-          marginLeft: 30,
-          ease: 'power4.out',
-        })
-        gsap.to(footer, {
-          y: 0,
-          ease: 'power4.out',
-        })
-      },
-      onEnterBack: () => {
-        fixedBar.style.pointerEvents = "none";
-        gsap.to(header, {
-          fontSize: 200,
-          ease: 'power4.out',
-        })
-        gsap.to(directorName, {
-          fontSize: 64,
-          marginLeft: 60,
-          ease: 'power4.out',
-        })
-        gsap.to(footer, {
-          y: 50,
-          ease: 'power4.out',
-        })
-      },
-    })
+
+  
   
     return () => {
       ScrollTrigger.getAll().forEach((trigger) => {
@@ -194,12 +246,12 @@ function Overlay({
         onCloseOverlay={handleCloseOverlay} // make sure onCloseOverlay is defined and passed as a prop
         onPreviewClick={undefined} handleCloseOverlay={undefined}  
             />{" "}
-          <div className="fixed-bar fixed top-1/2 -translate-y-1/2  left-24 flex items-center mix-blend-difference pointer-events-none">
-      <h1 className="badass">
-        <Link className="tungsten"  href='https://badassfilms.tv/'>BADASS</Link>
+          <div className="fixed-bar w-full md:w-auto  fixed h-full md:h-auto md:top-1/2 md:-translate-y-1/2 z-50  md:left-24 left-0 md:flex block items-center mix-blend-difference pointer-events-none">
+      <h1 className="badass md:w-auto relative md:top-0 -top-14 ">
+        <Link className="tungsten w-full text-center"  href='https://badassfilms.tv/'>BADASS</Link>
       </h1>
-      <h2 className=" directorName text-big ml-16 text-white founder-semiBold uppercase">{director.name}</h2>
-    </div> 
+      <h2 className=" directorName text-center w-full md:w-auto md:text-big text-big-mobile absolute bottom-14 md:relative md:bottom-0 md:ml-16 ml-0 text-white founder-semiBold uppercase">{director.name}</h2>
+    </div>  
       <div className="customFullHeight">
         <video
           className="h-full w-full object-cover"
