@@ -23,6 +23,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/header.tsx", "components/utils/useHeaderEffect.js, ,"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/header.tsx", "components/utils/useHeaderEffect.js, ,", "pages/index.jsx", "pages/presentation/[slug].jsx", "pages/director/[slug].jsx", "pages/director/[slug].jsx", "pages/director/[slug].jsx"],
   "exclude": ["node_modules"]
 }

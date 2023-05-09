@@ -25,7 +25,7 @@ export default function Footer({ contact, films }) {
 
   return (
     <div>
-      <div className="h-12 z-40 bg-black films gap-24 films grid uppercase  fixed bottom-0 left-0 w-full text-red  text-14px  sm:px-24 px-12 ">
+      <div className="h-12 z-40 footer bg-black films gap-24 films grid uppercase  fixed bottom-0 left-0 w-full text-red  text-14px  sm:px-24 px-12 ">
         <button
         onClick={handleContactClick}       
            className=" text-red  text-14px uppercase founder-semiBold justify-self-start "

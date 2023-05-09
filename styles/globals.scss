@@ -352,6 +352,10 @@ width: 100%;
   }
 }
 
+.footer{
+  transform: translateY(50px);
+}
+
 @media (max-width: 700px) {
   /* Styles to apply when the screen is smaller than 700px */
   .films {

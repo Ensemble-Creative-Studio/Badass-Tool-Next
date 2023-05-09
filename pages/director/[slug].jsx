@@ -126,20 +126,51 @@ function Overlay({
   useEffect(() => {
     
   gsap.registerPlugin(ScrollTrigger);
-    const header = document.querySelector(".badass");
-  
+    const header = document.querySelector(".badass a");
+    const directorName = document.querySelector(".directorName");
+    const fixedBar = document.querySelector(".fixed-bar");
+    const footer = document.querySelector(".footer");
     ScrollTrigger.create({
-      trigger: ".overlay-content",
-      start: "top top",
-      endTrigger: ".overlay-content",
-      end: "bottom top",
-      onEnter: () => {
-        gsap.to(header, { fontSize: "64px", duration: 0.5 });
+      trigger: ".overlay-video",
+      start: "top center",
+      endTrigger: ".overlay-video",
+      end: "center   center",
+  
+      scroller: '.overlay-video',
+      onLeave: () => {
+        fixedBar.style.pointerEvents = "auto";
+        // $brandLink.value.classList.remove('isActive')
+        gsap.to(header, {
+          fontSize: 50,
+          ease: 'power4.out',
+        })
+        gsap.to(directorName, {
+          fontSize: 20,
+          marginLeft: 30,
+          ease: 'power4.out',
+        })
+        gsap.to(footer, {
+          y: 0,
+          ease: 'power4.out',
+        })
       },
-      onLeaveBack: () => {
-        gsap.to(header, { fontSize: "96px", duration: 0.5 });
+      onEnterBack: () => {
+        fixedBar.style.pointerEvents = "none";
+        gsap.to(header, {
+          fontSize: 200,
+          ease: 'power4.out',
+        })
+        gsap.to(directorName, {
+          fontSize: 64,
+          marginLeft: 60,
+          ease: 'power4.out',
+        })
+        gsap.to(footer, {
+          y: 50,
+          ease: 'power4.out',
+        })
       },
-    });
+    })
   
     return () => {
       ScrollTrigger.getAll().forEach((trigger) => {
@@ -163,11 +194,11 @@ function Overlay({
         onCloseOverlay={handleCloseOverlay} // make sure onCloseOverlay is defined and passed as a prop
         onPreviewClick={undefined} handleCloseOverlay={undefined}  
             />{" "}
-          <div className="fixed-bar fixed top-1/2 -translate-y-1/2  left-24 flex items-center mix-blend-difference">
+          <div className="fixed-bar fixed top-1/2 -translate-y-1/2  left-24 flex items-center mix-blend-difference pointer-events-none">
       <h1 className="badass">
         <Link className="tungsten"  href='https://badassfilms.tv/'>BADASS</Link>
       </h1>
-      <h2 className="pl-8 directorName text-big ml-16 text-white founder-semiBold uppercase">{director.name}</h2>
+      <h2 className=" directorName text-big ml-16 text-white founder-semiBold uppercase">{director.name}</h2>
     </div> 
       <div className="customFullHeight">
         <video
