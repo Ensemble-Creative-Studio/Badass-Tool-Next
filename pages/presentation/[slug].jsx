@@ -15,8 +15,27 @@ import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 export default function WatchLater({ director, contact, films }) {
 
     const [activeVideoIndex, setActiveVideoIndex] = useState(-1);
-  
-    const handleVideoClick = (index) => {
+
+    const widthRef = useRef(null);
+    
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+      const updateIsMobile = () => {
+        setIsMobile(window.innerWidth <= 900);
+      };
+      updateIsMobile();
+      window.addEventListener('resize', updateIsMobile);
+      return () => {
+        window.removeEventListener('resize', updateIsMobile);
+      };
+    }, []);
+    
+    useEffect(() => {
+      console.log(window.innerWidth);
+    }, [isMobile]);
+    
+        const handleVideoClick = (index) => {
       setActiveVideoIndex(index);
     };
   
@@ -125,13 +144,14 @@ export default function WatchLater({ director, contact, films }) {
       
     
       
-      
+
         return () => {
           ScrollTrigger.getAll().forEach((trigger) => {
             trigger.kill();
           });
         };
       }, []);
+
     return (
       <div className="fixed w-full h-full top-0 overlay bg-black overflow-scroll overlay-video">
         <div className="fixed-bar w-full md:w-auto  fixed h-full md:h-auto md:top-1/2 md:-translate-y-1/2 z-50  md:left-24 left-0 md:flex block items-center mix-blend-difference pointer-events-none">
@@ -141,25 +161,42 @@ export default function WatchLater({ director, contact, films }) {
       <h2 className=" directorName text-center w-full md:w-auto md:text-big text-big-mobile absolute bottom-0 md:relative md:bottom-0 md:ml-16 ml-0 text-white founder-semiBold uppercase">{director.name}</h2>
     </div>  
       <div className="h-full">
-          <video
-            className="h-full w-full object-cover"
-            poster={urlFor(director.thumbnailImage).url()}
-            src={director.reelUrl}
-            autoPlay
-            loop
-          ></video>
+      {isMobile ? (
+        <video
+          className="h-full w-full object-cover"
+          poster={urlFor(director.thumbnailImage).url()}
+          
+        ></video>
+      ) : (
+        <video
+          className="h-full w-full object-cover"
+          poster={urlFor(director.thumbnailImage).url()}
+          src={director.reelUrl}
+          autoPlay
+          loop
+        ></video>
+      )}
         </div>
         <div className="overlay-content pt-40 pb-96  ">
           <ul className="sm:grid films flex flex-col sm:px-24 px-12 sm:gap-24 gap-48 text-white ">
             {films.map((item, index) => (
               <li className="video cursor-pointer " key={item.slug.current} onClick={() => handleVideoClick(index)}>
+                    {isMobile ? (
                 <video
-                  loop
-                  autoPlay
+                  
+                  
                   poster={urlFor(item.thumbnailImage).url()}
                   src={item.videoLoopUrl}
                   muted
                 ></video>
+                ) : (
+                  <video
+                  loop
+                  autoPlay
+                  poster={urlFor(item.thumbnailImage).url()}
+                  muted
+                ></video>
+                )}
                 <div className="pt-5 flex justify-between uppercase items-center">
                   <div className="flex">
                     <h3 className="founder-semiBold text-14px pr-2">{item.client}</h3>
@@ -196,7 +233,6 @@ export const getServerSideProps = async (context) => {
   const [directorSlug, filmSlugs] = slug.toString().split(",");
   const slugs = filmSlugs.split("_");
 
-  console.log(directorSlug);
   const query = groq`*[_type == 'films' && slug.current in $slugs] {
   client,
   director->{
@@ -229,7 +265,6 @@ export const getServerSideProps = async (context) => {
   }[0]`;
   const films = await client.fetch(query, { slugs });
   const director = await client.fetch(Directorquery, { directorSlug });
-  console.log(director.name);
   const contactQuery = groq`*[_type == 'contact'] {
   _createdAt,
   _id,
@@ -242,6 +277,5 @@ export const getServerSideProps = async (context) => {
   title
 }[0]`;
   const contact = await client.fetch(contactQuery);
-  console.log(films);
   return { props: { films, contact, director } };
 };

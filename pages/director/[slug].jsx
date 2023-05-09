@@ -182,7 +182,7 @@ else{
     start: "10% center",
     endTrigger: ".overlay-video",
     end: "20%   center",
-markers: true,
+
     scroller: '.overlay-video',
     onLeave: () => {
       gsap.to(header, {
