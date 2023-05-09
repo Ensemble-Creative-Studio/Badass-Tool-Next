@@ -18,7 +18,7 @@ export default function WatchLater({ director, contact, films }) {
 
     const widthRef = useRef(null);
     
-    const [isMobile, setIsMobile] = useState(false);
+    const [isMobile, setIsMobile] = useState(true);
 
     useEffect(() => {
       const updateIsMobile = () => {
@@ -31,9 +31,7 @@ export default function WatchLater({ director, contact, films }) {
       };
     }, []);
     
-    useEffect(() => {
-      console.log(window.innerWidth);
-    }, [isMobile]);
+
     
         const handleVideoClick = (index) => {
       setActiveVideoIndex(index);
@@ -180,13 +178,10 @@ export default function WatchLater({ director, contact, films }) {
         <div className="overlay-content pt-40 pb-96  ">
           <ul className="sm:grid films flex flex-col sm:px-24 px-12 sm:gap-24 gap-48 text-white ">
             {films.map((item, index) => (
-              <li className="video cursor-pointer " key={item.slug.current} onClick={() => handleVideoClick(index)}>
+              <li className="video cursor-pointer flex flex-col justify-end " key={item.slug.current} onClick={() => handleVideoClick(index)}>
                     {isMobile ? (
                 <video
-                  
-                  
                   poster={urlFor(item.thumbnailImage).url()}
-                  muted
                 ></video>
                 ) : (
                   <video

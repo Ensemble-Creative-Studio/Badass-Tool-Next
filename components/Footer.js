@@ -16,7 +16,7 @@ export default function Footer({ contact, films }) {
         link.href = film.downloadVideoUrl;
         link.download = `${film.title}_${index}.mp4`;
         link.click();
-      }, index * 1000);
+      }, index * 2000);
     });
   };
   

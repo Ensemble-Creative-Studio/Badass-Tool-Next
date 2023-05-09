@@ -405,4 +405,9 @@ width: 100%;
     white-space: nowrap;
     
   }
+  .video-player {
+    z-index: 399999;
+    position: relative;
+    width: 100%;
+  }
 }
