@@ -24,10 +24,18 @@ export default function VideoPlayer({ videoUrl, poster, onClose }) {
   };
 
   const toggleFullScreen = () => {
-    if (!document.fullscreenElement) {
-      containerRef.current.requestFullscreen();
+    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+      if (containerRef.current.requestFullscreen) {
+        containerRef.current.requestFullscreen();
+      } else if (containerRef.current.webkitRequestFullscreen) {
+        containerRef.current.webkitRequestFullscreen();
+      }
     } else {
-      document.exitFullscreen();
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      }
     }
     setIsFullScreen(!isFullScreen);
   };
