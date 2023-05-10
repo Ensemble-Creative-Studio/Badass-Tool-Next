@@ -10,6 +10,7 @@ export default function useHeaderEffects(directorRef, selectVideoRef, directorNa
 
       if (pageSlug === "director") {
         if (router.asPath.includes("/director")) {
+          console.log('director')
           if (selectVideoRef.current) {
             selectVideoRef.current.style.color = "#F93D3D";
             selectVideoRef.current.style.opacity = 1;
@@ -46,6 +47,7 @@ export default function useHeaderEffects(directorRef, selectVideoRef, directorNa
               const previewButton = document.querySelector('.preview');
 
               previewButton.addEventListener('click', () => {
+                console.log("preview click")
                 setTimeout(() => {
                   const overlayHeader =  document.querySelector('.overlay-video header');
                   const scrollToXnew = headerElement.scrollWidth - headerRect.width;

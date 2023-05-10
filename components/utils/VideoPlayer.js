@@ -111,6 +111,7 @@ export default function VideoPlayer({ videoUrl, poster, onClose }) {
     <div className="player-container">
       <div   ref={containerRef} className="video-player  flex justify-center founder-regular ">
         <video
+        className="w-full"
           ref={videoRef}
           src={videoUrl}
           onClick={handleVideoClick}

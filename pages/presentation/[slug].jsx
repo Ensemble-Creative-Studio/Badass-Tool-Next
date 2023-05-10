@@ -223,54 +223,87 @@ export default function WatchLater({ director, contact, films }) {
     );
   }
 
-export const getServerSideProps = async (context) => {
-  const { slug } = context.query;
-  const [directorSlug, filmSlugs] = slug.toString().split(",");
-  const slugs = filmSlugs.split("_");
-
-  const query = groq`*[_type == 'films' && slug.current in $slugs] {
-  client,
-  director->{
-    name,
-    slug
-  },
-  downloadVideoUrl,
-  fullVideoUrl,
-  videoLoopUrl,
-  slug,
-  thumbnailImage {
-    asset->{
-      url
+  export const getServerSideProps = async (context) => {
+    const { slug } = context.query;
+    const [directorSlug, filmSlugs] = slug.toString().split(",");
+    const slugs = filmSlugs.split("_");
+  
+    // Build up a new array of films in the order specified by the URL
+    const filmsInOrder = [];
+    for (let i = 0; i < slugs.length; i++) {
+      const filmSlug = slugs[i];
+      const film = await client.fetch(
+        groq`*[_type == 'films' && slug.current == $filmSlug] {
+          client,
+          director->{
+            name,
+            slug
+          },
+          downloadVideoUrl,
+          fullVideoUrl,
+          videoLoopUrl,
+          slug,
+          thumbnailImage {
+            asset->{
+              url
+            }
+          },
+          title
+        }[0]`,
+        { filmSlug }
+      );
+      if (film) {
+        filmsInOrder.push(film);
+      }
     }
-  },
-  title
-}`;
-
-  const Directorquery = groq`*[_type == 'directors' && slug.current == $directorSlug] {
-     name,
+  
+    const query = groq`*[_type == 'films' && slug.current in $slugs] {
+      client,
+      director->{
+        name,
+        slug
+      },
+      downloadVideoUrl,
+      fullVideoUrl,
+      videoLoopUrl,
       slug,
-      reelUrl,
-      thumbnailImage,
-   
       thumbnailImage {
         asset->{
           url
         }
-      }
-  }[0]`;
-  const films = await client.fetch(query, { slugs });
-  const director = await client.fetch(Directorquery, { directorSlug });
-  const contactQuery = groq`*[_type == 'contact'] {
-  _createdAt,
-  _id,
-  _rev,
-  _type,
-  _updatedAt,
-  address,
-  credits,
-  socialMedia,
-  title
-}[0]`;
-  const contact = await client.fetch(contactQuery);
-  return { props: { films, contact, director } };
-};
+      },
+      title
+    } | order(slug.current in $slugs)`;
+  
+    const Directorquery = groq`*[_type == 'directors' && slug.current == $directorSlug] {
+       name,
+        slug,
+        reelUrl,
+        thumbnailImage,
+     
+        thumbnailImage {
+          asset->{
+            url
+          }
+        }
+    }[0]`;
+    const films = await client.fetch(query, { slugs });
+    const director = await client.fetch(Directorquery, { directorSlug });
+    const contactQuery = groq`*[_type == 'contact'] {
+      _createdAt,
+      _id,
+      _rev,
+      _type,
+      _updatedAt,
+      address,
+      credits,
+      socialMedia,
+      title
+    }[0]`;
+    const contact = await client.fetch(contactQuery);
+    console.log('---------------------------')
+    console.log(films)
+    console.log('---------------------------')
+    return { props: { films: filmsInOrder, contact, director } };
+  };
+  

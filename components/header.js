@@ -43,7 +43,7 @@ export default function Header({
   };
 
   return (
-    <div className="top-0 sticky">
+    <div className="top-0 sticky ultimateIndex">
       <header className="sm:h-24 overflow-auto sm:overflow-scroll flex-nowrapwrap h-16 top-0 sticky bg-black  sm:px-24 px-12 flex sm:text-3xl text-14px uppercase pb-2 founder-regular text-white justify-between z-50 ">
         <div className=" flex items-center md:w-10/12 lg:w-4/5 xl:w-2/3 w-auto justify-between shrink-0">
           <DirectorLink directorRef={directorRef} directorName={directorName} />

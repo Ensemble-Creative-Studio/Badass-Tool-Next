@@ -181,11 +181,13 @@ function Overlay({
           gsap.to(header, {
             fontSize: 50,
             ease: "power4.out",
+            top:'20px'
+            
           });
           gsap.to(directorName, {
             fontSize: 18,
             ease: "power4.out",
-            bottom: "calc(100% - 60px )",
+            bottom: "calc(100% - 80px )",
           });
           gsap.to(footer, {
             y: 0,
@@ -196,6 +198,7 @@ function Overlay({
           gsap.to(header, {
             fontSize: 200,
             ease: "power4.out",
+            top: '-10px'
           });
           gsap.to(directorName, {
             fontSize: 32,
@@ -249,7 +252,7 @@ function Overlay({
       <div className="fixed-bar w-full md:w-auto  fixed h-full md:h-auto md:top-1/2 md:-translate-y-1/2 z-50  md:left-24 left-0 md:flex block items-center mix-blend-difference pointer-events-none">
         <h1 className="badass md:w-auto relative md:top-0 -top-14 ">
           <Link
-            className="tungsten w-full text-center"
+            className="tungsten w-full text-center relative"
             href="https://badassfilms.tv/"
           >
             BADASS
@@ -315,10 +318,10 @@ function Overlay({
                   />
                 </div>
               </div>
-              <div className="absolute -left-10  h-full flex flex-col justify-between">
+              <div className="absolute chevron -left-10  h-full flex flex-col justify-between">
                 <Image
                   className="rotate-180 up-arrow"
-                  src="/icons/arrows-red.svg"
+                  src="/icons/chevron.svg"
                   alt="arrow"
                   height={20}
                   width={20}
@@ -340,7 +343,7 @@ function Overlay({
                 />
                 <Image
                   className="down-arrow"
-                  src="/icons/arrows-red.svg"
+                  src="/icons/chevron.svg"
                   alt="arrow"
                   height={20}
                   width={20}
@@ -428,7 +431,6 @@ export default function Director({ director, contact }) {
   }, []);
 
   useEffect(() => {
-    console.log(window.innerWidth);
   }, [isMobile]);
 
   return (
