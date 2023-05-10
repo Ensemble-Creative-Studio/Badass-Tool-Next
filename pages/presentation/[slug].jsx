@@ -151,7 +151,7 @@ export default function WatchLater({ director, contact, films }) {
       }, []);
 
     return (
-      <div className="fixed w-full h-full top-0 overlay bg-black overflow-scroll overlay-video">
+      <div className="fixed w-full h-full top-0 overlay bg-black overflow-scroll overlay-video overflow-x-hidden">
         <div className="fixed-bar w-full md:w-auto  fixed h-full md:h-auto md:top-1/2 md:-translate-y-1/2 z-50  md:left-24 left-0 md:flex block items-center mix-blend-difference pointer-events-none">
       <h1 className="badass md:w-auto relative md:top-0 -top-14 ">
         <Link className="tungsten w-full text-center relative"  href='https://badassfilms.tv/'>BADASS</Link>
@@ -301,9 +301,7 @@ export default function WatchLater({ director, contact, films }) {
       title
     }[0]`;
     const contact = await client.fetch(contactQuery);
-    console.log('---------------------------')
-    console.log(films)
-    console.log('---------------------------')
+
     return { props: { films: filmsInOrder, contact, director } };
   };
   

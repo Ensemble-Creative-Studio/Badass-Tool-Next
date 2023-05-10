@@ -69,6 +69,7 @@ export default function useHeaderEffects(directorRef, selectVideoRef, directorNa
               selectVideoRef.current.style.left = '';
             }
           }
+          
         }
       } else {
         if (selectVideoRef.current) {

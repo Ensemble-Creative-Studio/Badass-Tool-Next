@@ -236,7 +236,7 @@ function Overlay({
 
   return (
     <div
-      className="fixed w-full h-full top-0 overlay bg-black overflow-scroll overlay-video"
+      className="fixed w-full h-full top-0 overlay bg-black overflow-scroll overlay-video overflow-x-hidden"
       onClick={handleOverlayClick}
     >
       <Header
@@ -446,7 +446,7 @@ export default function Director({ director, contact }) {
       />
 
       {director.relatedFilms && director.relatedFilms.length > 0 ? (
-        <div className="sm:grid flex flex-col grid-cols-3 sm:gap-12 gap-32 sm:px-24 px-12 pt-24 pb-24 founder-regular sm:text-2xl text-14px uppercase">
+        <div className={` video-selector  flex-col grid-cols-3 sm:gap-12 gap-32 sm:px-24 px-12 pt-24 pb-24 founder-regular sm:text-2xl text-14px uppercase ${overlayVisible ? 'hidden' : 'sm:grid flex'}`}>
           {director.relatedFilms.map(
             (film) =>
               film && (

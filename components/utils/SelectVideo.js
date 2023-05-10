@@ -16,7 +16,7 @@ export default function SelectVideo({
   return (
     <div
       ref={selectVideoRef}
-      className="flex items-center text-white opacity-50 select sm-pr-0 pr-8"
+      className="flex items-center text-white opacity-50 select sm-pr-0 pr-8 select-video"
       onClick={handleSelectVideoClick}
     >
       <span>Select Videos</span>

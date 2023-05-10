@@ -84,6 +84,8 @@ html {
 
 .customFullHeight {
   height: calc(100vh - 8rem);
+  z-index: -1;
+  position: relative;
 }
 
 .films {
@@ -267,11 +269,13 @@ header {
 .video-player {
   z-index: 399999;
   position: relative;
-  width: 70%;
+  height: 70%;
 }
 .video-blur-overlay {
-  -webkit-backdrop-filter: blur(100px);
-  backdrop-filter: blur(100px);
+
+  background-color: rgba(0, 0, 0, 0.8);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
   cursor: pointer;
   height: 100%;
   left: 0;
@@ -426,8 +430,9 @@ header {
     left: 50%;
     transform: translateX(-50%);
   }
-  .overlay-content{
-    z-index: -1;
+
+}
+.overlay-content{
+  z-index: -1;
 position: relative;
-  }
 }
