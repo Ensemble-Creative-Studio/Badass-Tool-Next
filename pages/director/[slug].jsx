@@ -258,7 +258,7 @@ function Overlay({
             BADASS
           </Link>
         </h1>
-        <h2 className=" directorName text-center w-full md:w-auto md:text-big text-big-mobile absolute bottom-14 md:relative md:bottom-0 md:ml-16 ml-0 text-white founder-semiBold uppercase">
+        <h2 className=" directorName  text-center w-full md:w-auto md:text-big text-big-mobile absolute bottom-14 md:relative md:bottom-0 md:ml-16 ml-0 text-white founder-semiBold uppercase">
           {director.name}
         </h2>
       </div>

@@ -375,6 +375,10 @@ header {
 .chevron{
   display: none;
 }
+
+.directorName{
+  margin-bottom: 2%;
+}
 @media (max-width: 700px) {
   /* Styles to apply when the screen is smaller than 700px */
   .films {
@@ -435,7 +439,9 @@ header {
     left: 50%;
     transform: translateX(-50%);
   }
-
+  .directorName{
+    margin-bottom: 0%;
+  }
 }
 .overlay-content{
   z-index: -1;
