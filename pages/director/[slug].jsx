@@ -275,6 +275,8 @@ function Overlay({
             src={director.reelUrl}
             autoPlay
             loop
+            muted
+            playsInline
           ></video>
         )}
       </div>
@@ -291,7 +293,7 @@ function Overlay({
                 <video
                   poster={urlFor(item.thumbnailImage).url()}
                   src={item.videoLoopUrl}
-                  muted
+                  
                 ></video>
               ) : (
                 <video
@@ -300,6 +302,7 @@ function Overlay({
                   autoPlay
                   poster={urlFor(item.thumbnailImage).url()}
                   muted
+                  playsInline
                 ></video>
               )}
               <div className="pt-5 flex justify-between uppercase items-center">

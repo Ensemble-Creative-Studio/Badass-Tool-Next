@@ -172,6 +172,8 @@ export default function WatchLater({ director, contact, films }) {
           src={director.reelUrl}
           autoPlay
           loop
+          muted
+          playsInline
         ></video>
       )}
         </div>
@@ -190,6 +192,7 @@ export default function WatchLater({ director, contact, films }) {
                   poster={urlFor(item.thumbnailImage).url()}
                   src={item.videoLoopUrl}
                   muted
+                  playsInline
                 ></video>
                 )}
                 <div className="pt-5 flex justify-between uppercase items-center">
