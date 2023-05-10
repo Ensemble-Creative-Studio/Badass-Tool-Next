@@ -39,7 +39,7 @@ export default function Header({
     setShowTooltip(true);
     setTimeout(() => {
       setShowTooltip(false);
-    }, 20000);
+    }, 2000);
   };
 
   return (
