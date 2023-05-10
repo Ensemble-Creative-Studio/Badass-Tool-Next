@@ -269,7 +269,9 @@ header {
 .video-player {
   z-index: 399999;
   position: relative;
-  height: 70%;
+  width: 70%;
+  max-height: 90%;
+  max-width: 1000px;
 }
 .video-blur-overlay {
 
