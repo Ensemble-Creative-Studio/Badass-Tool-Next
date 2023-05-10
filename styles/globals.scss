@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+button{
+  border: none;
+}
 html {
   font-size: 62.5%;
   -webkit-font-smoothing: antialiased;
