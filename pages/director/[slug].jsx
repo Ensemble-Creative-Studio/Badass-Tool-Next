@@ -383,7 +383,7 @@ function Overlay({
     </div>
   );
 }
-export default function Director({ director, contact }) {
+export default function Director({ director, contact, films }) {
   const [checkedItems, setCheckedItems] = useState([]);
 
   const updateCheckedItems = (newItems) => {
@@ -447,58 +447,58 @@ export default function Director({ director, contact }) {
         handleCloseOverlay={undefined}
         overlayUrl={overlayUrl} // pass overlayUrl to Header component
       />
+{films && films.length > 0 ? (
+  <div className={`video-selector flex-col grid-cols-3 sm:gap-12 gap-32 sm:px-24 px-12 pt-24 pb-24 founder-regular sm:text-2xl text-14px uppercase ${overlayVisible ? 'hidden' : 'sm:grid flex'}`}>
+    {films.map(
+      (film) =>
+        film && (
+          <div
+            className="cursor-pointer flex flex-col justify-end"
+            key={film._id}
+          >
+            {isMobile ? (
+              <video
+                poster={urlFor(film.thumbnailImage).url()}
+                onClick={() => {
+                  film.checkboxRef.click();
+                }}
+              ></video>
+            ) : (
+              <video
+                poster={urlFor(film.thumbnailImage).url()}
+                src={film.videoLoopUrl}
+                autoPlay
+                loop
+                onClick={() => {
+                  film.checkboxRef.click();
+                }}
+              ></video>
+            )}
+            <div className="pt-5 flex justify-between">
+              <div className="flex">
+                <h3 className="founder-semiBold pr-2">{film.client}</h3>
+                <h4>{film.title}</h4>
+              </div>
+              <div className="flex items-center">
+                <input
+                  onChange={(event) => handleCheckboxChange(event, film)}
+                  ref={(checkbox) => (film.checkboxRef = checkbox)}
+                  className="round-circle-no-fill"
+                  type="checkbox"
+                  id={`checkbox-${film._id}`}
+                  name={`checkbox-${film._id}`}
+                />
+                <label htmlFor={`checkbox-${film._id}`}></label>
+              </div>
+            </div>
+          </div>
+        )
+    )}
+  </div>
+) : (
+  <p>No films</p>
+)}
 
-      {director.relatedFilms && director.relatedFilms.length > 0 ? (
-        <div className={` video-selector  flex-col grid-cols-3 sm:gap-12 gap-32 sm:px-24 px-12 pt-24 pb-24 founder-regular sm:text-2xl text-14px uppercase ${overlayVisible ? 'hidden' : 'sm:grid flex'}`}>
-          {director.relatedFilms.map(
-            (film) =>
-              film && (
-                <div
-                  className="cursor-pointer flex flex-col justify-end"
-                  key={film._id}
-                >
-                  {isMobile ? (
-                    <video
-                      poster={urlFor(film.thumbnailImage).url()}
-                      onClick={() => {
-                        film.checkboxRef.click();
-                      }}
-                    ></video>
-                  ) : (
-                    <video
-                      poster={urlFor(film.thumbnailImage).url()}
-                      src={film.videoLoopUrl}
-                      autoPlay
-                      loop
-                      onClick={() => {
-                        film.checkboxRef.click();
-                      }}
-                    ></video>
-                  )}
-                  <div className="pt-5 flex justify-between">
-                    <div className="flex">
-                      <h3 className="founder-semiBold pr-2">{film.client}</h3>
-                      <h4>{film.title}</h4>
-                    </div>
-                    <div className="flex items-center">
-                      <input
-                        onChange={(event) => handleCheckboxChange(event, film)}
-                        ref={(checkbox) => (film.checkboxRef = checkbox)}
-                        className="round-circle-no-fill"
-                        type="checkbox"
-                        id={`checkbox-${film._id}`}
-                        name={`checkbox-${film._id}`}
-                      />
-                      <label htmlFor={`checkbox-${film._id}`}></label>
-                    </div>
-                  </div>
-                </div>
-              )
-          )}
-        </div>
-      ) : (
-        <p>No films</p>
-      )}
 
       {overlayVisible && (
         <Overlay
@@ -518,28 +518,31 @@ export default function Director({ director, contact }) {
 
 export const getServerSideProps = async (context) => {
   const { slug } = context.query;
-  const query = groq`*[_type == 'directors' && slug.current == $slug] {
-      name,
+
+  const directorQuery = groq`*[_type == 'directors' && slug.current == $directorSlug] {
+    name,
+    slug,
+    reelUrl,
+    thumbnailImage,
+    relatedFilms[]->{
+      _id,
+      title,
+      client,
       slug,
-      reelUrl,
+      releaseDate,
+      videoLoopUrl,
       thumbnailImage,
-      relatedFilms[]->{
-        _id,
-        title,
-        client,
-        slug,
-        releaseDate,
-        videoLoopUrl,
-        thumbnailImage,
-        "posterUrl": poster.asset->url
-      },
-      thumbnailImage {
-        asset->{
-          url
-        }
+      "posterUrl": poster.asset->url
+    },
+    thumbnailImage {
+      asset->{
+        url
       }
-    }[0]`;
-  const director = await client.fetch(query, { slug });
+    }
+  }[0]`;
+
+  const director = await client.fetch(directorQuery, { directorSlug: slug });
+
   const contactQuery = groq`*[_type == 'contact'] {
     _createdAt,
     _id,
@@ -551,7 +554,31 @@ export const getServerSideProps = async (context) => {
     socialMedia,
     title
   }[0]`;
+
   const contact = await client.fetch(contactQuery);
 
-  return { props: { director, contact } };
+  const filmsQuery = groq`*[_type == 'films' && director->slug.current == $directorSlug] {
+    client,
+    director->{
+      name,
+      slug
+    },
+    downloadVideoUrl,
+    fullVideoUrl,
+    videoLoopUrl,
+    slug,
+    thumbnailImage {
+      asset->{
+        url
+      }
+    },
+    title
+  }`;
+
+  const films = await client.fetch(filmsQuery, { directorSlug: slug });
+console.log(films)
+console.log(director)
+
+
+  return { props: { director, contact, films } };
 };

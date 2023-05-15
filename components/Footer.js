@@ -2,23 +2,37 @@
 import Link from "next/link";
 import { useRef, useState } from "react";
 import Image from "next/image";
+import JSZip from "jszip";
 export default function Footer({ contact, films }) {
   const [isContactActive, setIsContactActive] = useState(false);
 
   const handleContactClick = () => {
     setIsContactActive(!isContactActive);
   };
-  const handleDownloadAllClick = () => {
-    films.forEach((film, index) => {
-      
-      setTimeout(() => {
-        const link = document.createElement("a");
-        link.href = film.downloadVideoUrl;
-        link.download = `${film.title}_${index}.mp4`;
-        link.click();
-      }, index * 2000);
-    });
-  };
+  const handleDownloadAllClick = async () => {
+    const zip = new JSZip();
+    const folder = zip.folder("Badass-presentation-films");
+
+    // Download each file
+    for (const [index, film] of films.entries()) {
+        const response = await fetch(film.downloadVideoUrl);
+
+        if (!response.ok) throw new Error("Network response was not ok");
+
+        const blob = await response.blob();
+
+        folder.file(`${film.title}_${index}.mp4`, blob);
+    }
+
+    // Generate zip and trigger download
+    zip.generateAsync({ type: "blob" })
+        .then((content) => {
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(content);
+            link.download = "films.zip";
+            link.click();
+        });
+};
   
 
   return (
