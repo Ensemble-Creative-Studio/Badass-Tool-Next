@@ -468,6 +468,7 @@ export default function Director({ director, contact, films }) {
                 poster={urlFor(film.thumbnailImage).url()}
                 src={film.videoLoopUrl}
                 autoPlay
+                muted
                 loop
                 onClick={() => {
                   film.checkboxRef.click();
